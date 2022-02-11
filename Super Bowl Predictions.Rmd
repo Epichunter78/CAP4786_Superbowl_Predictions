@@ -5,9 +5,9 @@ Date: "2-10-2022"
 output: html_notebook
 ---
 
-# Set Working Directory
+# Set Working Directory (Change to run)
 ```{r}
-setwd("C:/Users/yusuf/Desktop/STU/FINALE/SuperBowl")
+setwd("CAP4786_Superbowl_Predictions")
 ```
 
 # Load Tidyverse
