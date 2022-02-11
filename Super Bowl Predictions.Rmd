@@ -1,0 +1,67 @@
+---
+title: "Super Bowl Predictions"
+Name: "Yusuf Tuzun"
+Date: "2-10-2022"
+output: html_notebook
+---
+
+# Set Working Directory
+```{r}
+setwd("C:/Users/yusuf/Desktop/STU/FINALE/SuperBowl")
+```
+
+# Load Tidyverse
+```{r}
+library(tidyverse)
+```
+
+# Read Data Sets
+```{r}
+matches <- read.csv("CBvLARMatches.csv", TRUE, ",")
+CBLeaders <- read.csv("CBLeaderPoints.csv", TRUE, ",")
+LARLeaders <- read.csv("LARLeaderPoints.csv", TRUE, ",")
+```
+
+# Prediction 1
+```{r}
+matchhistory <- ggplot() + 
+  geom_line(matches, mapping = aes(x = Match.No...Newest.to.Oldest., 
+                                   y = Cincinnati.Bengals), color = "orange") +
+  geom_line(matches, mapping = aes(x = Match.No...Newest.to.Oldest., 
+                                   y = Los.Angeles.Rams), color = "blue") +
+  labs(x = "Matches", y = "No. of Points", 
+       title = "Match History Points\n(Orange = Cincinnati Bengals | Blue = Los Angeles Rams)", 
+       legend = c('Cincinnati Bengals', 'Los Angeles Rams'))
+matchhistory
+## Save to File
+ggsave('MatchHistoryPoints.png')
+```
+
+# Prediction 2
+```{r}
+## Make Data Set
+CBPointTotal = sum(matches$Cincinnati.Bengals)
+LARPointTotal = sum(matches$Los.Angeles.Rams)
+Teams = c('Cincinnati Bengals', 'Los Angeles Rams')
+VSPointTotals = c(CBPointTotal, LARPointTotal)
+VS.data = data.frame(Teams, VSPointTotals)
+
+pointhistory <- ggplot(VS.data, mapping = aes(x = Teams, y = VSPointTotals, fill=Teams)) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(name = "Teams", values=c("orange","blue")) +
+  labs(y = 'No. of Scored Points', title = 'Total Number of Match History Points')
+pointhistory
+### Save to File
+ggsave('MatchHistoryTotalPoints.png')
+```
+
+# Prediction 3
+```{r}
+leaders <- ggplot() +
+  geom_point(CBLeaders, mapping = aes(x = Attributed.Points, y = Leader), color = 'orange') +
+  geom_point(LARLeaders, mapping = aes(x = Attributed.Points, y = Leader), color = 'blue') +
+  labs(x = "Attributed Yardage Points", title = "Team Leaders and Their Attributed Yardage Points\n(Orange = Cincinnati Bengals | Blue = Los Angeles Rams)")
+leaders
+## Save to File
+ggsave('Leaders.png')
+```
